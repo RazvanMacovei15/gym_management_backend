@@ -23,6 +23,8 @@ public class TaskMapper {
     GymMapper gymMapper = new GymMapper();
     public Task toEntity(TaskDTO taskDTO){
         return Task.builder()
+                .taskId(taskDTO.getTaskId())
+                .title(taskDTO.getTitle())
                 .category(taskDTO.getCategory())
                 .description(taskDTO.getDescription())
                 .deadline(taskDTO.getDeadline())
@@ -35,6 +37,7 @@ public class TaskMapper {
     public TaskDTO mapFrom(Task task){
         return TaskDTO.builder()
                 .taskId(task.getTaskId())
+                .title(task.getTitle())
                 .category(task.getCategory())
                 .description(task.getDescription())
                 .deadline(task.getDeadline())

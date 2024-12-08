@@ -16,4 +16,6 @@ public interface UserServiceInterface {
 
     Set<Task> getCreatedTasks(Long userId);
 
+    User findbyId(Long id);
+
 }

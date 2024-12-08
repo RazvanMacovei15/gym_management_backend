@@ -7,8 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import tradatorii.gym_management.Enums.Role;
 
 import java.util.Collection;
@@ -24,7 +22,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name="Users")
-public class User implements UserDetails {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long userId;
@@ -56,34 +54,4 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private Set<Task> tasksCreated;
 
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return UserDetails.super.isAccountNonExpired();
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return UserDetails.super.isAccountNonLocked();
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return UserDetails.super.isCredentialsNonExpired();
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
-    }
 }

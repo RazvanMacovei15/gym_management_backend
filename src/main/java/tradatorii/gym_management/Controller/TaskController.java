@@ -14,6 +14,7 @@ import tradatorii.gym_management.Entity.User;
 import tradatorii.gym_management.Enums.Status;
 import tradatorii.gym_management.Mappers.TaskMapper;
 import tradatorii.gym_management.Service.TaskServiceInterface;
+import tradatorii.gym_management.Service.implementations.UserService;
 import tradatorii.gym_management.Wrapper.TaskWrapper;
 
 import java.time.LocalDateTime;
@@ -33,6 +34,8 @@ public class TaskController {
 
     private TaskServiceInterface taskService;
     private final TaskMapper taskMapper;
+    private UserService userService;
+
 
     @PostMapping("/create")
     public ResponseEntity<TaskDTO> createTask(@RequestBody TaskRequestDTO taskRequestDTO)
@@ -51,12 +54,11 @@ public class TaskController {
                 .address(gymDTO.getAddress())
                 .build()).collect(Collectors.toSet());
 
-        Set<User> usersSet = users.stream().map(userDTO -> User.builder()
-                .userId(userDTO.getId())
-                .name(userDTO.getName())
-                .email(userDTO.getEmail())
-                .role(userDTO.getRole())
-                .build()).collect(Collectors.toSet());
+        Set<User> usersSet = users.stream()
+                .map(userDTO -> userService.findbyId(userDTO.getId())) // Fetch existing users
+                .collect(Collectors.toSet());
+        task.setUsersResponsibleForTask(usersSet);
+
 
         task.setUsersResponsibleForTask(usersSet);
 
